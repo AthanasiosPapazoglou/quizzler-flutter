@@ -30,25 +30,25 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  
- void checkAnswer(bool userPickedAnswer){
-   
-   bool correctAnswer = qBank.getQuestionAnswer();
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = qBank.getQuestionAnswer();
 
-    (userPickedAnswer == correctAnswer) 
-    ? 
-      scoreList.add(Icon(Icons.check, color: Colors.green,))
-    :
-      scoreList.add(Icon(Icons.close, color: Colors.red,));
-    
+    (userPickedAnswer == correctAnswer)
+        ? scoreList.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ))
+        : scoreList.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
 
-      setState(() {
-        qBank.nextQuestion();
-      });
-}
- 
+    setState(() {
+      qBank.nextQuestion();
+    });
+  }
+
   List<Widget> scoreList = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,19 +76,18 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+                textColor: Colors.white,
+                color: Colors.green,
+                child: Text(
+                  'True',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              onPressed: () {
-                checkAnswer(true);
-              }
-            ),
+                onPressed: () {
+                  checkAnswer(true);
+                }),
           ),
         ),
         Expanded(
@@ -117,8 +116,3 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
