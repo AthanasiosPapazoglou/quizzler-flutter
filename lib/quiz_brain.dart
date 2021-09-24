@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:quizzler/question.dart';
+import 'question.dart';
 
 class QuizBrain {
+  int _questionNumber = 0;
 
-  int _currentQ = 0;
-
-  List<Question> _questionDB = [
+  List<Question> _questionBank = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
@@ -33,16 +31,30 @@ class QuizBrain {
         true),
   ];
 
-
-  void nextQuestion(){
-    (_currentQ < _questionDB.length-1) ? _currentQ++ : print('Quiz End');
-  }
- 
-  String getQuestionText(){
-     return _questionDB[_currentQ].questionText;
+  void nextQuestion() {
+    if (_questionNumber < _questionBank.length - 1) {
+      _questionNumber++;
+    }
   }
 
-  bool getQuestionAnswer(){
-     return _questionDB[_currentQ].questionAnswer;
+  String getQuestionText() {
+    return _questionBank[_questionNumber].questionText;
   }
+
+  bool getCorrectAnswer() {
+    return _questionBank[_questionNumber].questionAnswer;
+  }
+
+  bool isFinished(){
+   if (_questionNumber == 12){
+     return true;
+     }else{
+       return false;
+     }
+  }
+
+  void reset(){
+    _questionNumber = 0;
+  }
+
 }

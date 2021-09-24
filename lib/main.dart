@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
-QuizBrain qBank = QuizBrain();
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -30,25 +30,36 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  void checkAnswer(bool userPickedAnswer) {
-    bool correctAnswer = qBank.getQuestionAnswer();
+  List<Icon> scoreKeeper = [];
 
-    (userPickedAnswer == correctAnswer)
-        ? scoreList.add(Icon(
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizBrain.getCorrectAnswer();
+
+    setState(() {
+      if (quizBrain.isFinished()) {
+        Alert(
+                context: context,
+                title: 'GAME OVER',
+                desc: 'You answered all questions')
+            .show();
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(
             Icons.check,
             color: Colors.green,
-          ))
-        : scoreList.add(Icon(
+          ));
+        } else {
+          scoreKeeper.add(Icon(
             Icons.close,
             color: Colors.red,
           ));
-
-    setState(() {
-      qBank.nextQuestion();
+        }
+        quizBrain.nextQuestion();
+      }
     });
   }
-
-  List<Widget> scoreList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                qBank.getQuestionText(),
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -76,18 +87,19 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
-                textColor: Colors.white,
-                color: Colors.green,
-                child: Text(
-                  'True',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
+              textColor: Colors.white,
+              color: Colors.green,
+              child: Text(
+                'True',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
                 ),
-                onPressed: () {
-                  checkAnswer(true);
-                }),
+              ),
+              onPressed: () {
+                checkAnswer(true);
+              },
+            ),
           ),
         ),
         Expanded(
@@ -109,10 +121,9 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Row(
-          children: scoreList,
-        ),
+          children: scoreKeeper,
+        )
       ],
     );
   }
 }
-
