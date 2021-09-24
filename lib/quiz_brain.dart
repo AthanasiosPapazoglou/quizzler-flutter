@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:quizzler/question.dart';
 
 class QuizBrain {
-  List<Question> questionDB = [
+
+  int _currentQ = 0;
+
+  List<Question> _questionDB = [
     Question('Some cats are actually allergic to humans', true),
     Question('You can lead a cow down stairs but not up stairs.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
@@ -29,4 +32,17 @@ class QuizBrain {
         'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
         true),
   ];
+
+
+  void nextQuestion(){
+    (_currentQ < _questionDB.length-1) ? _currentQ++ : print('Quiz End');
+  }
+ 
+  String getQuestionText(){
+     return _questionDB[_currentQ].questionText;
+  }
+
+  bool getQuestionAnswer(){
+     return _questionDB[_currentQ].questionAnswer;
+  }
 }

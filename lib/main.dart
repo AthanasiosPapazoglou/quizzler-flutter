@@ -33,7 +33,7 @@ class _QuizPageState extends State<QuizPage> {
   
   List<Widget> scoreList = [];
 
-  int currentQ = 0;
+  
 
   List<bool> answers = [false,true,true];
 
@@ -50,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                qBank.questionDB[currentQ].questionText,
+                qBank.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -74,7 +74,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = qBank.questionDB[currentQ].questionAnswer;
+                bool correctAnswer = qBank.getQuestionAnswer();
 
                 if(correctAnswer == true){
                   print('You are RIGHT!');
@@ -83,8 +83,9 @@ class _QuizPageState extends State<QuizPage> {
                 }
 
                 setState(() {
-                  currentQ++;
+                  qBank.nextQuestion();
                 });
+
               },
             ),
           ),
@@ -102,15 +103,16 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = qBank.questionDB[currentQ].questionAnswer;
+                bool correctAnswer = qBank.getQuestionAnswer();
 
                 if(correctAnswer == false){
                   print('You are RIGHT!');
                 }else{
                   print('You are WRONG!');
                 }
+
                 setState(() {
-                  currentQ++;
+                  qBank.nextQuestion();
                 });
               },
             ),
