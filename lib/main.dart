@@ -31,11 +31,23 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   
+ void checkAnswer(bool userPickedAnswer){
+   
+   bool correctAnswer = qBank.getQuestionAnswer();
+
+    (userPickedAnswer == correctAnswer) 
+    ? 
+      scoreList.add(Icon(Icons.check, color: Colors.green,))
+    :
+      scoreList.add(Icon(Icons.close, color: Colors.red,));
+    
+
+      setState(() {
+        qBank.nextQuestion();
+      });
+}
+ 
   List<Widget> scoreList = [];
-
-  
-
-  List<bool> answers = [false,true,true];
 
 
   @override
@@ -74,19 +86,8 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = qBank.getQuestionAnswer();
-
-                if(correctAnswer == true){
-                  print('You are RIGHT!');
-                }else{
-                  print('You are WRONG!');
-                }
-
-                setState(() {
-                  qBank.nextQuestion();
-                });
-
-              },
+                checkAnswer(true);
+              }
             ),
           ),
         ),
@@ -103,17 +104,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = qBank.getQuestionAnswer();
-
-                if(correctAnswer == false){
-                  print('You are RIGHT!');
-                }else{
-                  print('You are WRONG!');
-                }
-
-                setState(() {
-                  qBank.nextQuestion();
-                });
+                checkAnswer(false);
               },
             ),
           ),
